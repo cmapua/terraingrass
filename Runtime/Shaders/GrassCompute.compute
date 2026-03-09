@@ -1,0 +1,153 @@
+#pragma kernel CSMain
+
+struct GrassData {
+    float3 Position;
+    float3 Normal;
+    //float4 Color;
+    float Alpha;
+};
+
+struct GrassInstanceData {
+    float4x4 TransformMatrix;
+    float3 Normal;
+};
+
+// per-tile
+StructuredBuffer<GrassData> _GrassBufferIN; // input
+RWStructuredBuffer<GrassInstanceData> _GrassInstanceDataOUT; // output. will be fed to draw shader
+uniform uint _InstanceCount;
+
+// global
+uniform float _Scale;
+uniform float _MinBladeHeight;
+uniform float _MaxBladeHeight;
+uniform float _MinOffset;
+uniform float _MaxOffset;
+uniform float4x4 _TerrainObjectToWorld;
+uniform bool _ApplyBlenderTransformCorrection;
+uniform bool _OrientToTerrainNormal;
+
+#define TWO_PI 6.28318530718f
+#define DEG2RAD_90 TWO_PI / 4
+#define IDENTITY_MATRIX float4x4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+
+// Function that takes a 2-element seed and returns a random value
+// between the min and max bounds.
+float randomRange(float2 seed, float min, float max)
+{
+    float randnum = frac(sin(dot(seed, float2(12.9898, 78.233)))*43758.5453);
+    return lerp(min, max, randnum);
+}
+
+// Function to rotate around the y-axis by a specified angle.
+float4x4 rotationMatrixY(float angle)
+{
+    float s, c;
+    sincos(angle, s, c);
+
+    return float4x4
+    (
+         c, 0, s, 0,
+         0, 1, 0, 0,
+        -s, 0, c, 0,
+         0, 0, 0, 1
+    );
+}
+
+// https://catlikecoding.com/unity/tutorials/rendering/part-1/#4.2
+float4x4 rotateMatrix(float x, float y, float z) {
+    float sX, cX;
+    sincos(x, sX, cX);
+
+    float sY, cY;
+    sincos(y, sY, cY);
+
+    float sZ, cZ;
+    sincos(z, sZ, cZ);
+    
+    return float4x4
+    (
+         cY * cZ,                 -cY * sZ,                sY,        0,
+         cX * sZ + sX * sY * cZ,  cX * cZ - sX * sY * sZ,  -sX * cY,  0,
+         sX * sZ - cX * sY * cZ,  sX * cZ + cX * sY * sZ,  cX * cY,   0,
+         0,                       0,                       0,         1
+    );
+}
+
+// https://discussions.unity.com/t/matrix-rotation-with-normal-vector-in-shader/907256/3
+// https://gist.github.com/kevinmoran/b45980723e53edeb8a5a43c49f134724
+// v1: up, v2: normal 
+float4x4 NormalRotationMatrix(float3 v1, float3 v2) 
+{
+    float3 axis = cross(v1, v2);
+
+    float cosA = dot(v1, v2);
+    float k = 1.0f / (1.0f + cosA);
+
+    float4x4 result =
+        float4x4(
+            (axis.x * axis.x * k) + cosA,
+            (axis.y * axis.x * k) - axis.z,
+            (axis.z * axis.x * k) + axis.y,
+            0,
+            (axis.x * axis.y * k) + axis.z,
+            (axis.y * axis.y * k) + cosA,
+            (axis.z * axis.y * k) - axis.x,
+            0,
+            (axis.x * axis.z * k) - axis.y,
+            (axis.y * axis.z * k) + axis.x,
+            (axis.z * axis.z * k) + cosA,
+            0,
+            0, 0, 0, 1
+            );
+
+    return result;
+}
+
+//[numthreads(8,8,1)]
+[numthreads(64,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x > _InstanceCount) return;
+
+    GrassData grassData = _GrassBufferIN[id.x];
+    float3 pos = grassData.Position;
+
+    float2 randSeed1 = float2(id.x, id.y);
+    float2 randSeed2 = float2(id.y, id.x);
+
+    float scale = _Scale * (_ApplyBlenderTransformCorrection ? 100.f : 1.f) * grassData.Alpha;
+    float scaleY = scale * randomRange(randSeed1, _MinBladeHeight, _MaxBladeHeight);
+
+    float offsetX = randomRange(randSeed1, _MinOffset, _MaxOffset);
+    float offsetZ = randomRange(randSeed2, _MinOffset, _MaxOffset);
+
+    // Get scale and translation matrix
+    float4x4 grassTransformMatrix = float4x4
+    (
+        scale,	0,		0,		pos.x + offsetX,
+        0,		scaleY,	0,		pos.y,
+        0,		0,		scale,	pos.z + offsetZ,
+        0,		0,		0,		1
+    );
+
+    // Get rotation matrix
+    float4x4 rotationMatrix = IDENTITY_MATRIX;
+    if (_ApplyBlenderTransformCorrection) {
+        rotationMatrix = rotateMatrix(-DEG2RAD_90, 0, 0);
+    }
+    
+    float rotY = randomRange(randSeed1, 0.0f, TWO_PI);
+    rotationMatrix = mul(rotateMatrix(0, rotY, 0), rotationMatrix);
+    //float4x4 randomRotationMatrix = rotationMatrixY(randomRange(randSeed1, 0.0f, TWO_PI));
+
+    if (_OrientToTerrainNormal) {
+        //float3 up = normalize(float3(max(offsetX, -0.05), 1, min(offsetZ, 0.05)));
+        float3 up = float3(0,1,0);
+        float3 normal = grassData.Normal;
+        rotationMatrix = mul(NormalRotationMatrix(up, normal), rotationMatrix);
+    }
+    
+    _GrassInstanceDataOUT[id.x].TransformMatrix = mul(_TerrainObjectToWorld, mul(grassTransformMatrix, rotationMatrix));
+    _GrassInstanceDataOUT[id.x].Normal = grassData.Normal;
+}

@@ -1,0 +1,16 @@
+{
+    "name": "TerrainGrass.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:bb2b36e553b3dcb4f83b3babae58fa1a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
