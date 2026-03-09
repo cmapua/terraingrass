@@ -3,13 +3,16 @@
     Properties
     {
         //_MainTex ("Texture", 2D) = "white" {}
+        [Header(Grass Colors)][Space]
         _TipColor ("Grass Tip Color", Color) = (0.5, 1, 0.5, 1)
         _TipColor2 ("Grass Tip Color 2", Color) = (0.5, 1, 0.5, 1)
         _RootColor ("Grass Root Color", Color) = (0.25, 0.5, 0.25, 1)
+        _ColorNoiseScale ("Color Noise Scale", Float) = 1.0
+        [Header(Wind Settings)][Space]
         _WindForce ("Wind Force", Range(0, 1)) = 0.3
         _WindWaveScale ("Wind Wave Scale", Range(0, 1)) = 0.25
         _WindSpeed ("Wind Speed", Range(0, 1)) = 0.5
-        _ColorNoiseScale ("Color Noise Scale", Float) = 1.0
+        [Header(Other)][Space]
         _IndirectBoost ("Indirect Color Boost", Float) = 0.0
         _AttenuationLighten ("Attenuation Lighten", Float) = 0.0
         [Enum(UnityEngine.Rendering.CullMode)] _CullMode ("Cull Mode", Float) = 0
