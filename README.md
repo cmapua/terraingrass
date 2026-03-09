@@ -16,6 +16,10 @@ LOD support:
 
 ![lod-support.gif](Documentation~/lod-support.gif)
 
+Override the mesh's normals with terrain normals: 
+
+![terrain_normals.png](Documentation~/terrain_normals.png)
+
 # Installation
 > [!note]
 > Please install the [Artifice Toolkit](https://github.com/AbZorbaGames/artificetoolkit) dependency first.
@@ -27,7 +31,7 @@ https://github.com/cmapua/terraingrass.git
 ```
 
 # Usage
-1. Add terrain to scene.
+1. Add terrain to scene with at least one terrain layer.
 2. Add `TerrainGrass` component to Terrain GameObject.
 3. Supply the following required references:
    - Camera
