@@ -1,10 +1,10 @@
 # Terrain GPU Instanced Grass
 
-Grass system made for use with Unity Terrain and the Built-in Rendering Pipeline. Tested and developed on Unity version 2022.3.62f3.
+Grass system made for use with Unity Terrain and the Built-in Rendering Pipeline. Tested and developed on Unity 2022.3.62f3.
 
 ## Features
 
-Frustum and distance culling:
+Per-instance frustum and distance culling:
 
 ![frustum-culling.gif](Documentation~/frustum-culling.gif)
 
@@ -19,6 +19,11 @@ LOD support:
 Override the mesh's normals with terrain normals: 
 
 ![terrain_normals.png](Documentation~/terrain_normals.png)
+
+Other features:
+- Grass instances only spawn on specified terrain layer index, with the corresponding channel value from terrain's splat map controlling scale. 
+- World-space noise for varying grass colors, blended between 3 color properties.
+- Vertex animated with configurable wind settings.
 
 # Installation
 > [!note]
