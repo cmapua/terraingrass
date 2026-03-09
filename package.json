@@ -1,10 +1,14 @@
 ﻿{
   "name": "com.cmapua.terraingrass",
+  "displayName": "Terrain GPU Instanced Grass",
   "author": {
     "name":"Carlos Mapua",
-    "email": "carlos.mapua+github@gmail.com"
+    "email": "carlos.mapua+github@gmail.com",
+    "url": "https://github.com/cmapua/terraingrass"
   },
-  "displayName": "Terrain GPU Instanced Grass",
   "version": "0.1.0",
-  "unity": "2022.3"
+  "unity": "2022.3",
+  "dependencies": {
+    "com.abzorba.artificetoolkit": "https://github.com/AbZorbaGames/artificetoolkit.git"
+  }
 }
