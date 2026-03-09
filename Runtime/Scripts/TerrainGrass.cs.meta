@@ -3,7 +3,14 @@ guid: 55995494ea26760468e174cb8f1cd105
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _computeShader: {fileID: 7200000, guid: a6f66af422f48e1449b17d8544a46291, type: 3}
+  - _cullShader: {fileID: 7200000, guid: c97bbbce53eb4a318f1a6cba3412d665, type: 3}
+  - _camera: {instanceID: 0}
+  - _grassMesh: {instanceID: 0}
+  - _grassMeshLOD: {instanceID: 0}
+  - _grassProceduralMaterial: {fileID: 2100000, guid: 89a898b3a55af894fa5fe8677291f33e, type: 2}
+  - _grassInstancedIndirectMaterial: {fileID: 2100000, guid: fce0b30cf3defae4ea8888d12ffec2d1, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

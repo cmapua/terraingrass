@@ -88,8 +88,8 @@ public class TerrainGrass : MonoBehaviour
     [SerializeField, UnityEngine.Range(0, 1)] private float _grassMinimumAlpha = 0.5f;
     
     [Header("Settings")]
-    [SerializeField, OnValueChanged(nameof(Refresh)), UnityEngine.Range(1, 32)] private int _tileDivisions = 8;
-    [SerializeField, OnValueChanged(nameof(Refresh)), UnityEngine.Range(0, 7)] private int _density = 3;
+    [SerializeField, /*OnValueChanged(nameof(Refresh)),*/ UnityEngine.Range(1, 32)] private int _tileDivisions = 16;
+    [SerializeField, /*OnValueChanged(nameof(Refresh)),*/ UnityEngine.Range(0, 7)] private int _density = 6;
     [SerializeField] private float _maxDistance = 20f;
     [SerializeField] private float _maxDistanceLOD0 = 10f;
     [SerializeField, OnValueChanged(nameof(Refresh))] private bool _computeCullingEnabled = true;
@@ -123,10 +123,10 @@ public class TerrainGrass : MonoBehaviour
     [SerializeField, Required] private Camera _camera;
     [SerializeField] private float _minBladeHeight = 0.5f;
     [SerializeField] private float _maxBladeHeight = 1f;
-    [SerializeField] private float _minBladeOffset = 0.5f;
-    [SerializeField] private float _maxBladeOffset = 1f;
+    [SerializeField] private float _minBladeOffset = -0.25f;
+    [SerializeField] private float _maxBladeOffset = 0.25f;
     [SerializeField] private float _bladeScale = 1f;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private bool _applyBlenderTransformCorrection = true;
+    [SerializeField, OnValueChanged(nameof(Refresh))] private bool _applyBlenderTransformCorrection;
     [SerializeField, OnValueChanged(nameof(Refresh))] private bool _orientToTerrainNormals;
     [SerializeField, OnValueChanged(nameof(Refresh))] private bool _initialCullingEnabled;
 
