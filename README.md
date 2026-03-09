@@ -2,6 +2,17 @@
 
 Grass system made for use with Unity Terrain and the Built-in Rendering Pipeline. Tested and developed on Unity version 2022.3.62f3.
 
+# Installation
+> [!note]
+> Please install the [Artifice Toolkit](https://github.com/AbZorbaGames/artificetoolkit) dependency first.
+
+Install via Unity's Package Manager using this git URL:
+
+```
+https://github.com/cmapua/terraingrass.git
+```
+
+
 # Resources
 - [Daniel Ilett - Six Grass Rendering Techniques in Unity](https://danielilett.com/2022-12-05-tut6-2-six-grass-techniques/)
 - [Minions Art - Grass System](https://www.patreon.com/posts/wip-patron-only-83683483)
