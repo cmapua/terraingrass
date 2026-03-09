@@ -2,6 +2,20 @@
 
 Grass system made for use with Unity Terrain and the Built-in Rendering Pipeline. Tested and developed on Unity version 2022.3.62f3.
 
+## Features
+
+Frustum and distance culling:
+
+![frustum-culling.gif](Documentation~/frustum-culling.gif)
+
+Per-chunk culling:
+
+![chunk-culling.gif](Documentation~/chunk-culling.gif)
+
+LOD support:
+
+![lod-support.gif](Documentation~/lod-support.gif)
+
 # Installation
 > [!note]
 > Please install the [Artifice Toolkit](https://github.com/AbZorbaGames/artificetoolkit) dependency first.
@@ -12,6 +26,14 @@ Install via Unity's Package Manager using this git URL:
 https://github.com/cmapua/terraingrass.git
 ```
 
+# Usage
+1. Add terrain to scene.
+2. Add `TerrainGrass` component to Terrain GameObject.
+3. Supply the following required references:
+   - Camera
+   - Grass Mesh
+4. Grass should start appearing on the terrain, around where the referenced camera is. If not, try clicking on the Refresh button in the TerrainGrass component.
+   - If the grass mesh was made using Blender, scale and orientation may be wrong. Try checking `_applyBlenderTransformCorrection` and see if that fixes the issue.
 
 # Resources
 - [Daniel Ilett - Six Grass Rendering Techniques in Unity](https://danielilett.com/2022-12-05-tut6-2-six-grass-techniques/)
