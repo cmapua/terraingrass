@@ -235,6 +235,8 @@ public class TerrainGrass : MonoBehaviour
                     visible = visible && GeometryUtility.TestPlanesAABB(debugPlanes, tile.Bounds);
                 }
 
+                visible = i == activeTileIndex;
+
                 if (!visible) continue;
                 
                 Gizmos.color = i == activeTileIndex ? _activeTile : _inactiveTile;
@@ -553,7 +555,7 @@ public class TerrainGrass : MonoBehaviour
         }
 
         _computeInitialized = true;
-        Debug.Log("Compute initialized.");
+        //Debug.Log("Compute initialized.");
     }
 
     private void ComputeCleanup()
@@ -707,7 +709,7 @@ public class TerrainGrass : MonoBehaviour
         }
 
         _drawInitialized = true;
-        Debug.Log("Draw initialized.");
+        //Debug.Log("Draw initialized.");
     }
     
     private void DrawCleanup()

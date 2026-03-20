@@ -30,7 +30,7 @@ public class TerrainGrassEditor : Editor
         
         if (GUILayout.Button("Refresh"))
         {
-            Debug.Log("Refresh button pressed");
+            //Debug.Log("Refresh button pressed");
             TerrainObject.Refresh();
         }
 
