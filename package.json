@@ -2,10 +2,10 @@
   "name": "com.cmapua.terraingrass",
   "displayName": "Terrain GPU Instanced Grass",
   "author": {
-    "name":"Carlos Mapua",
+    "name":"Carlos Mapúa",
     "email": "carlos.mapua+github@gmail.com",
     "url": "https://github.com/cmapua/terraingrass"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "unity": "2022.3"
 }

@@ -370,6 +370,7 @@ public class TerrainGrass : MonoBehaviour
         var terrainWidth = terrainData.size.x;
         var terrainLength = terrainData.size.z;
         var terrainWorldOffsetX = transform.position.x;
+        var terrainWorldOffsetY = transform.position.y;
         var terrainWorldOffsetZ = transform.position.z;
         
         var tileWidth = terrainWidth / _tileDivisions;
@@ -393,22 +394,22 @@ public class TerrainGrass : MonoBehaviour
             for (int z = 0; z < _tileDivisions; z++)
             {
                 // per-tile setting
-                var worldOffsetX = x * tileWidth + transform.position.x;
-                var worldOffsetZ = z * tileLength + transform.position.z;
+                var worldOffsetX = x * tileWidth + terrainWorldOffsetX;
+                var worldOffsetZ = z * tileLength + terrainWorldOffsetZ;
                 var worldCenterX = worldOffsetX + halfWidth;
                 var worldCenterZ = worldOffsetZ + halfLength;
                 
                 // get tile height
                 var normalizedX = (worldCenterX - terrainWorldOffsetX) / terrainWidth;
                 var normalizedZ = (worldCenterZ - terrainWorldOffsetZ) / terrainLength;
-                var sampledHeight = terrainData.GetInterpolatedHeight(normalizedX, normalizedZ);
+                var tileHeight = terrainData.GetInterpolatedHeight(normalizedX, normalizedZ);
                 
                 // get tile alpha
                 var tileAlpha = terrainData.GetAlphamaps(x * alphaW, z * alphaH, alphaW, alphaH);
                 
                 var center = new Vector3(
                     worldCenterX, 
-                    sampledHeight,
+                    tileHeight + terrainWorldOffsetY,
                     worldCenterZ);
                 var size = new Vector3(tileWidth, tileWidth, tileLength);
                 var bounds = new Bounds(center, size);
@@ -431,7 +432,7 @@ public class TerrainGrass : MonoBehaviour
                         
                         var instanceWorldPosY = terrainData.GetInterpolatedHeight(
                             instanceNormalizedX,
-                            instanceNormalizedZ);
+                            instanceNormalizedZ) + terrainWorldOffsetY;
                         
                         var normal = terrainData.GetInterpolatedNormal(
                             instanceNormalizedX,
