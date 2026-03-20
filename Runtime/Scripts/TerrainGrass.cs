@@ -369,6 +369,9 @@ public class TerrainGrass : MonoBehaviour
     {
         var terrainWidth = terrainData.size.x;
         var terrainLength = terrainData.size.z;
+        var terrainWorldOffsetX = transform.position.x;
+        var terrainWorldOffsetZ = transform.position.z;
+        
         var tileWidth = terrainWidth / _tileDivisions;
         var tileLength = terrainLength / _tileDivisions;
         var halfWidth = tileWidth * 0.5f;
@@ -389,14 +392,18 @@ public class TerrainGrass : MonoBehaviour
         {
             for (int z = 0; z < _tileDivisions; z++)
             {
-                var worldOffsetX = x * tileWidth;
-                var worldOffsetZ = z * tileLength;
+                // per-tile setting
+                var worldOffsetX = x * tileWidth + transform.position.x;
+                var worldOffsetZ = z * tileLength + transform.position.z;
                 var worldCenterX = worldOffsetX + halfWidth;
                 var worldCenterZ = worldOffsetZ + halfLength;
-                var normalizedX = worldCenterX / terrainWidth;
-                var normalizedZ = worldCenterZ / terrainLength;
                 
+                // get tile height
+                var normalizedX = (worldCenterX - terrainWorldOffsetX) / terrainWidth;
+                var normalizedZ = (worldCenterZ - terrainWorldOffsetZ) / terrainLength;
                 var sampledHeight = terrainData.GetInterpolatedHeight(normalizedX, normalizedZ);
+                
+                // get tile alpha
                 var tileAlpha = terrainData.GetAlphamaps(x * alphaW, z * alphaH, alphaW, alphaH);
                 
                 var center = new Vector3(
@@ -418,8 +425,9 @@ public class TerrainGrass : MonoBehaviour
                         var instanceWorldPosX = instanceWorldOffsetX + halfInstanceOffsetX;
                         var instanceWorldPosZ = instanceWorldOffsetZ + halfInstanceOffsetZ;
 
-                        var instanceNormalizedX = instanceWorldPosX / terrainWidth;
-                        var instanceNormalizedZ = instanceWorldPosZ / terrainLength;
+                        // get instance height and normal
+                        var instanceNormalizedX = (instanceWorldPosX - terrainWorldOffsetX) / terrainWidth;
+                        var instanceNormalizedZ = (instanceWorldPosZ - terrainWorldOffsetZ) / terrainLength;
                         
                         var instanceWorldPosY = terrainData.GetInterpolatedHeight(
                             instanceNormalizedX,

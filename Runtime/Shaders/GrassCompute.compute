@@ -148,6 +148,6 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         rotationMatrix = mul(NormalRotationMatrix(up, normal), rotationMatrix);
     }
     
-    _GrassInstanceDataOUT[id.x].TransformMatrix = mul(_TerrainObjectToWorld, mul(grassTransformMatrix, rotationMatrix));
+    _GrassInstanceDataOUT[id.x].TransformMatrix = mul(grassTransformMatrix, rotationMatrix); //mul(_TerrainObjectToWorld, mul(grassTransformMatrix, rotationMatrix));
     _GrassInstanceDataOUT[id.x].Normal = grassData.Normal;
 }
