@@ -1,5 +1,4 @@
-﻿using System;
-using ArtificeToolkit.Attributes;
+﻿//using ArtificeToolkit.Attributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -7,7 +6,7 @@ using UnityEngine.Assertions;
 public class CameraSetter : MonoBehaviour
 {
     [SerializeField] private Camera[] _cameras;
-    [SerializeField, Required] private TerrainGrass _terrainGrass;
+    [SerializeField, /*Required*/] private TerrainGrass _terrainGrass;
     [SerializeField] private bool _runInUpdate;
 
     private void OnEnable()
@@ -21,8 +20,8 @@ public class CameraSetter : MonoBehaviour
         UpdateCamera();
     }
 
-    [Button]
-    private void UpdateCamera()
+    //[Button]
+    public void UpdateCamera()
     {
         Assert.IsNotNull(_cameras);
         Assert.IsNotNull(_terrainGrass);

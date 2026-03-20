@@ -27,8 +27,6 @@ Other features:
 - Helpful 'Apply Blender Transform Correction' option for meshes created in Blender to correct their scale and rotation.
 
 # Installation
-> [!note]
-> Please install the [Artifice Toolkit](https://github.com/AbZorbaGames/artificetoolkit) dependency first.
 
 Install via Unity's Package Manager using this git URL:
 

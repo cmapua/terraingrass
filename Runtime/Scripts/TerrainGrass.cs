@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using ArtificeToolkit.Attributes;
+//using ArtificeToolkit.Attributes;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static System.Runtime.InteropServices.Marshal;
@@ -85,17 +85,17 @@ public class TerrainGrass : MonoBehaviour
     ///////////////////// 
     [Header("Terrain Settings")]
     [SerializeField] private int _grassTerrainLayer;
-    [SerializeField, UnityEngine.Range(0, 1)] private float _grassMinimumAlpha = 0.5f;
+    [SerializeField, Range(0, 1)] private float _grassMinimumAlpha = 0.5f;
     
     [Header("Settings")]
-    [SerializeField, /*OnValueChanged(nameof(Refresh)),*/ UnityEngine.Range(1, 32)] private int _tileDivisions = 16;
-    [SerializeField, /*OnValueChanged(nameof(Refresh)),*/ UnityEngine.Range(0, 7)] private int _density = 6;
+    [SerializeField, /*OnValueChanged(nameof(Refresh)),*/ Range(1, 32)] private int _tileDivisions = 16;
+    [SerializeField, /*OnValueChanged(nameof(Refresh)),*/ Range(0, 7)] private int _density = 6;
     [SerializeField] private float _maxDistance = 20f;
     [SerializeField] private float _maxDistanceLOD0 = 10f;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private bool _computeCullingEnabled = true;
+    [SerializeField] private bool _computeCullingEnabled = true;
     [SerializeField] private bool _perTileDistanceCullingEnabled = true;
     [SerializeField] private bool _perTileFrustumCullingEnabled = true;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private bool _drawProcedural;
+    [SerializeField] private bool _drawProcedural;
 
     public enum LODMode
     {
@@ -105,11 +105,11 @@ public class TerrainGrass : MonoBehaviour
 
     [SerializeField] private LODMode _lodMode;
 
-    // cached values
-    [SerializeField, ReadOnly] private int _actualDensity;
-    [SerializeField, ReadOnly] private int _maxInstancesPerTile;
-    [SerializeField, ReadOnly] private float _tileMaxDistanceSqr;
-    [SerializeField, ReadOnly] private float _tileMaxDistanceLOD0Sqr;
+    // cached (readonly) values
+    [SerializeField] private int _actualDensity;
+    [SerializeField] private int _maxInstancesPerTile;
+    [SerializeField] private float _tileMaxDistanceSqr;
+    [SerializeField] private float _tileMaxDistanceLOD0Sqr;
     
     private int ActualDensity => _actualDensity;
     private int MaxInstancesPerTile => _maxInstancesPerTile;
@@ -118,17 +118,17 @@ public class TerrainGrass : MonoBehaviour
     // Compute Shader
     ///////////////////// 
     [Header("Compute Shader")]
-    [SerializeField, Required] private ComputeShader _computeShader;
-    [SerializeField, Required] private ComputeShader _cullShader;
-    [SerializeField, Required] private Camera _camera;
+    [SerializeField /*, Required*/] private ComputeShader _computeShader;
+    [SerializeField /*, Required*/] private ComputeShader _cullShader;
+    [SerializeField /*, Required*/] private Camera _camera;
     [SerializeField] private float _minBladeHeight = 0.5f;
     [SerializeField] private float _maxBladeHeight = 1f;
     [SerializeField] private float _minBladeOffset = -0.25f;
     [SerializeField] private float _maxBladeOffset = 0.25f;
     [SerializeField] private float _bladeScale = 1f;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private bool _applyBlenderTransformCorrection;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private bool _orientToTerrainNormals;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private bool _initialCullingEnabled;
+    [SerializeField] private bool _applyBlenderTransformCorrection;
+    [SerializeField] private bool _orientToTerrainNormals;
+    [SerializeField] private bool _initialCullingEnabled;
 
     private int _voteKernel, _scanInstanceKernel, _scanGroupKernel, _compactKernel;
     private int _voteThreadGroupSize, _cullThreadGroupSize, _scanGroupThreadGroupSize;
@@ -140,10 +140,10 @@ public class TerrainGrass : MonoBehaviour
     /////////////////////
     [Header("Drawing")] 
     [SerializeField] private bool _drawingEnabled = true;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private bool _useTerrainNormals;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private Mesh _grassMesh, _grassMeshLOD;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private Material _grassProceduralMaterial;
-    [SerializeField, OnValueChanged(nameof(Refresh))] private Material _grassInstancedIndirectMaterial;
+    [SerializeField] private bool _useTerrainNormals;
+    [SerializeField] private Mesh _grassMesh, _grassMeshLOD;
+    [SerializeField] private Material _grassProceduralMaterial;
+    [SerializeField] private Material _grassInstancedIndirectMaterial;
 
     private bool _drawInitialized;
     // draw indirect variables
@@ -166,7 +166,7 @@ public class TerrainGrass : MonoBehaviour
     [SerializeField] private Color _inactiveTile = new Color(0.5f, 0.5f, 0.5f, 0.25f);
     [SerializeField] private Color _debugLODGizmosColor = Color.yellow;
     [SerializeField] private Color _debugInstanceGizmosColor = Color.cyan;
-    [SerializeField, UnityEngine.Range(0, 1)] private float _debugTileIndex;
+    [SerializeField, Range(0, 1)] private float _debugTileIndex;
     
     #endregion
     
@@ -289,7 +289,6 @@ public class TerrainGrass : MonoBehaviour
     /// <summary>
     /// Refresh the system.
     /// </summary>
-    [Button]
     public void Refresh()
     {
         Debug.Log("Refresh called");

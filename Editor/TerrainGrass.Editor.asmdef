@@ -1,8 +1,12 @@
 {
-    "name": "TerrainGrass.Runtime",
+    "name": "TerrainGrass.Editor",
     "rootNamespace": "",
-    "references": [],
-    "includePlatforms": [],
+    "references": [
+        "GUID:72802061251a3809a9fd9e4435e7d7b4"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
