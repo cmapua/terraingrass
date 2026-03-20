@@ -24,6 +24,7 @@ Other features:
 - Grass instances only spawn on specified terrain layer index, with the corresponding channel value from terrain's splat map controlling scale. 
 - World-space noise for varying grass colors, blended between 3 color properties.
 - Vertex animated with configurable wind settings.
+- Helpful 'Apply Blender Transform Correction' option for meshes created in Blender to correct their scale and rotation.
 
 # Installation
 > [!note]
@@ -38,11 +39,10 @@ https://github.com/cmapua/terraingrass.git
 # Usage
 1. Add terrain to scene with at least one terrain layer.
 2. Add `TerrainGrass` component to Terrain GameObject.
-3. Supply the following required references:
+3. Supply the following minimum required references in the component:
    - Camera
    - Grass Mesh
-4. Grass should start appearing on the terrain, around where the referenced camera is. If not, try clicking on the Refresh button in the TerrainGrass component.
-   - If the grass mesh was made using Blender, scale and orientation may be wrong. Try checking `_applyBlenderTransformCorrection` and see if that fixes the issue.
+4. Grass instances should start appearing on the terrain, around where the referenced camera is. If not, try clicking on the Refresh button in the TerrainGrass component.
 
 # Resources
 - [Daniel Ilett - Six Grass Rendering Techniques in Unity](https://danielilett.com/2022-12-05-tut6-2-six-grass-techniques/)
