@@ -2,6 +2,9 @@
 
 Grass system made for use with Unity Terrain and the Built-in Rendering Pipeline. Tested and developed on Unity 2022.3.62f3.
 
+> [!warning]
+> This package is still in active development. It is not recommended for use in production.
+
 ## Features
 
 Per-instance frustum and distance culling:
